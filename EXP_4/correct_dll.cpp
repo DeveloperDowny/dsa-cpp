@@ -1,6 +1,6 @@
 // A complete working C++ program to
 // demonstrate all insertion methods
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 // A linked list node

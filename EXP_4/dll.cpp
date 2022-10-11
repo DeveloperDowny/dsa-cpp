@@ -9,7 +9,7 @@ private:
 public:
     int data;
     Node *prev;
-    Node *left;
+    Node *next;
     Node(int data)
     {
         this->data = data;
@@ -24,9 +24,7 @@ public:
     Node *head;
     DLL()
     {
-        head = new Node(1);
-        head->prev = nullptr;
-        head->left = nullptr;
+        head = nullptr;
     }
     ~DLL() {}
 
@@ -37,7 +35,7 @@ public:
         while (temp != nullptr)
         {
             cout << temp->data << endl;
-            temp = temp->left;
+            temp = temp->next;
         }
         cout << endl
              << endl;
@@ -45,14 +43,15 @@ public:
 
     void testFunc()
     {
+        head = new Node(10);
         Node *temp = head;
         for (int i = 2; i < 4; i++)
         {
-            temp->left = new Node(i);
-            temp->left->prev = temp;
-            temp = temp->left;
+            temp->next = new Node(i * 10);
+            temp->next->prev = temp;
+            temp = temp->next;
         }
-        temp->left = nullptr;
+        temp->next = nullptr;
     }
 
     void addNodeAt(Node *newNode, int pos)
@@ -61,77 +60,70 @@ public:
         {
             head = newNode;
             head->prev = nullptr;
-            head->left = nullptr;
+            head->next = nullptr;
             return;
         }
 
         if (pos == 1)
         {
             newNode->prev = nullptr;
-            newNode->left = head;
+            newNode->next = head;
             head = newNode;
             return;
         }
 
-        // Add at end if pos is -1
         if (pos == -1)
         {
             Node *temp = head;
-            while (temp->left != nullptr)
+            while (temp->next != nullptr)
             {
-                temp = temp->left; // why does doing this doesn't change loc of head. It doesn't because you aren't using a double pointer. If temp was a double pointer, *temp would be accesing the address of the head pointer (which itself is storing an address)
-                // *temp =
-                // temp = (*temp).next;
-                // *temp =
+                temp = temp->next;
             }
-            temp->left = newNode;
-            newNode->left = nullptr;
+            temp->next = newNode;
+            newNode->next = nullptr;
             newNode->prev = temp;
             return;
         }
 
+        pos--;
+
         Node *temp = head;
         while (pos-- > 1)
         {
-            if (temp->left == nullptr)
+            if (temp->next == nullptr)
             {
-                temp->left = newNode;
+                temp->next = newNode;
                 newNode->prev = temp;
-                newNode->left = nullptr;
+                newNode->next = nullptr;
                 break;
             }
             else
             {
-                temp = temp->left;
+                temp = temp->next;
             }
-            // while (temp->next != null)
-            // {
-            //     /* code */
-            // }
         }
 
-        // newNode->next = temp->next->next; use this for deletion
         if (newNode->prev == temp)
         {
             return;
         }
-        newNode->left = temp->left;
-        if (newNode->left != nullptr)
+        newNode->next = temp->next;
+        if (newNode->next != nullptr)
         {
-            newNode->left->prev = newNode;
+            newNode->next->prev = newNode;
         }
 
-        temp->left = newNode;
+        temp->next = newNode;
         newNode->prev = temp;
 
-        cout << head->data << endl;
+        // cout << head->data << endl;
     }
 
     void deleteNodeAt(int pos)
     {
         if (head == nullptr)
             return;
-        if (head->left == nullptr)
+        if (head->next == nullptr)
         {
             Node *temp = head;
             head = nullptr;
@@ -142,69 +134,53 @@ public:
         if (pos == 1)
         {
             Node *toDelete = head;
-            head->left->prev = nullptr;
-            head = toDelete->left;
+            head->next->prev = nullptr;
+            head = toDelete->next;
             delete toDelete;
             return;
         }
 
-        // Add at end if pos is -1
         if (pos == -1)
         {
             Node *temp = head;
-            while (temp->left != nullptr)
+            while (temp->next != nullptr)
             {
-                temp = temp->left; // why does doing this doesn't change loc of head. It doesn't because you aren't using a double pointer. If temp was a double pointer, *temp would be accesing the address of the head pointer (which itself is storing an address)
-                // *temp =
-                // temp = (*temp).next;
-                // *temp =
+                temp = temp->next;
             }
-            temp->prev = nullptr;
+            temp->prev->next = nullptr;
             delete temp;
-            // temp->next = newNode;
-            // newNode->next = nullptr;
-            // newNode->prev = temp;
+
             return;
         }
 
         Node *temp = head;
         while (pos-- > 1)
         {
-            if (temp->left == nullptr)
+            if (temp->next == nullptr)
             {
-                temp->prev->left = nullptr;
-                // delete temp;
+                temp->prev->next = nullptr;
+
                 temp = nullptr;
 
-                // temp->next = newNode;
-                // newNode->prev = temp;
-                // newNode->next = nullptr;
                 break;
             }
             else
             {
-                temp = temp->left;
+                temp = temp->next;
             }
-            // while (temp->next != null)
-            // {
-            //     /* code */
-            // }
         }
 
-        // newNode->next = temp->next->next; use this for deletion
         if (temp == nullptr)
         {
             delete temp;
             return;
         }
 
-        Node *toDelete = temp->left;
-        temp->left = temp->left->left;
-        temp->left->prev = temp;
+        Node *toDelete = temp->next;
+        temp->next = temp->next->next;
+        temp->next->prev = temp;
 
         delete toDelete;
-
-        cout << head->data << endl;
     }
 };
 
@@ -213,11 +189,11 @@ void testFunc(Node *&head)
     Node *temp = head;
     for (int i = 2; i < 4; i++)
     {
-        head->left = new Node(i);
-        head->left->prev = head;
-        head = head->left;
+        head->next = new Node(i * 10);
+        head->next->prev = head;
+        head = head->next;
     }
-    head->left = nullptr;
+    head->next = nullptr;
     head = temp;
 }
 
@@ -226,19 +202,28 @@ int main(int argc, char const *argv[])
 
     DLL mDLL = DLL();
 
-    // To Populate the Double Linked List 'mDLL'
     mDLL.testFunc();
     cout << "Initial DLL" << endl;
     mDLL.printDLL();
 
-    // Adding node at first position
     mDLL.addNodeAt(new Node(0), 1);
     cout << "After adding at 1st position" << endl;
     mDLL.printDLL();
 
-    // Deleting node at first position
     mDLL.deleteNodeAt(1);
     cout << "After deleting at 1st position" << endl;
+    mDLL.printDLL();
+
+    mDLL.addNodeAt(new Node(434), 2);
+    cout << "After adding at 2 position" << endl;
+    mDLL.printDLL();
+
+    mDLL.addNodeAt(new Node(23), -1);
+    cout << "After adding at last position" << endl;
+    mDLL.printDLL();
+
+    mDLL.deleteNodeAt(-1);
+    cout << "After deleting at last position" << endl;
     mDLL.printDLL();
 
     return 0;
