@@ -17,6 +17,21 @@ public:
     bool isQueueFull();
     int enqueue(int);
     int dequeue();
+    static void printAllQueue()
+    {
+        cout << endl
+             << "Printing the Array storing all Queues: " << endl;
+        for (int i = 0; i < 20; i++)
+        {
+
+            cout << Queue::arr[i] << " ";
+            if ((i + 1) % 5 == 0)
+            {
+                cout << endl;
+            }
+        }
+        cout << endl;
+    }
 };
 
 int Queue::size = 5;
@@ -35,20 +50,16 @@ int main(int argc, char const *argv[])
     q1.enqueue(1);
     q1.enqueue(1);
     q1.enqueue(1);
-    cout << "trying to overflow q1  " << q1.enqueue(1) << endl;
-    cout << "dequeuing q1  " << q1.dequeue() << endl;
+    cout << "Trying to Overflow Queue Number 1: Error " << q1.enqueue(1) << endl;
 
     q2.enqueue(1);
     q3.enqueue(1);
     q4.enqueue(1);
-    cout << q4.dequeue();
+    q4.dequeue();
     cout << endl;
-    cout << q4.dequeue() << endl;
+    cout << "Trying to Underflow Queue Number 4: Error " << q4.dequeue() << endl;
 
-    for (int i = 0; i < 20; i++)
-    {
-        cout << Queue::arr[i] << " " << i << endl;
-    }
+    Queue::printAllQueue();
 
     return 0;
 }
@@ -76,11 +87,15 @@ bool Queue::isQueueFull()
 
 int Queue::enqueue(int data)
 {
+
     if (!isQueueFull())
     {
         arr[++rear] = data;
+        cout << "Enqueuing in Queue Number " << ((front + rear) / 2) / size + 1;
+        printAllQueue();
         return 200;
     }
+
     return -999;
 }
 
@@ -90,10 +105,10 @@ int Queue::dequeue()
     {
         int toReturn = arr[front];
         arr[front++] = 0;
+        cout << "Dequeuing Queue Number " << ((front + rear) / 2) / size + 1;
+        printAllQueue();
         return toReturn;
     }
+
     return -999;
 }
-// menu driven
-// when asked to insert, which queue to insert into
-// user input dikhao

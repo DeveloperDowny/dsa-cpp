@@ -27,17 +27,16 @@ public:
     void printStack()
     {
 
-        for (int i = this->top; i >= 0; i--)
+        for (int i = 0; i <= this->top; i++)
         {
             cout << stack[i];
         }
-        cout << endl;
     }
 
     char peek()
     {
-        // cout << top << endl;
-        // cout << (top < 0 ? '|' : stack[top]);
+        //
+        //
 
         return top < 0
                    ? '|'
@@ -46,12 +45,17 @@ public:
 
     char pop()
     {
-        // if (top >=0) {
 
-        // }
-        // char popped_element = stack[top--];
-
-        return top < 0 ? '|' : stack[top--];
+        if (top < 0)
+        {
+            return '|';
+        }
+        else
+        {
+            char toReturn = stack[top];
+            top--;
+            return toReturn;
+        }
     }
 
     void push(char data)
@@ -62,9 +66,7 @@ public:
 
 bool checkForHigherOrEqualPrecedenceFromPH(char moperator, Stack placeholder)
 {
-    /// @brief operators are placed in the string such that higher the index of the operator higher its priority
 
-    // string bodmas = "-+"
     map<char, int> priority;
     priority['-'] = 1;
     priority['+'] = priority['-'];
@@ -75,7 +77,36 @@ bool checkForHigherOrEqualPrecedenceFromPH(char moperator, Stack placeholder)
     priority['^'] = 3;
 
     char topElement = placeholder.peek();
+    if (topElement == '|')
+    {
+        return false;
+    }
     if (priority[moperator] >= priority[topElement])
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool checkForHigherFromPH(char moperator, Stack placeholder)
+{
+
+    map<char, int> priority;
+    priority['-'] = 1;
+    priority['+'] = priority['-'];
+
+    priority['/'] = 2;
+    priority['*'] = priority['/'];
+
+    priority['^'] = 3;
+
+    char topElement = placeholder.peek();
+    if (topElement == '|')
+    {
+        return false;
+    }
+    if (priority[moperator] > priority[topElement])
     {
         return true;
     }
@@ -85,21 +116,21 @@ bool checkForHigherOrEqualPrecedenceFromPH(char moperator, Stack placeholder)
 
 int main(int argc, char const *argv[])
 {
-    string t = "A+B*C";
-    // string t = "A+B";
-    // Stack prefix = new Stack(); //why this wrong?
+
+    string t = "A+B*C-D";
+
+    cout << endl;
+    cout
+        << "Infix Expression: " << t << endl;
+    cout << endl;
+
     Stack prefix = Stack();
     Stack placeholder = Stack();
 
-    // // string prefix = "";
-    // char prefix[100];
-    // char n;
-    // char mstack[100];
-    // cha
     for (int i = t.length() - 1; i >= 0; i--)
     {
 
-        // cout << (placeholder.peek() == '|') << endl;
+        //
         if (isalpha(t[i]))
         {
             prefix.push(t[i]);
@@ -130,54 +161,51 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            placeholder.push(t[i]); // maybe this
-            // cout << placeholder.peek();
+            if (placeholder.peek() != '|')
+            {
+                prefix.push(placeholder.pop());
+            }
+
+            while (!checkForHigherFromPH(t[i], placeholder))
+            {
+                if (placeholder.peek() != '|')
+                {
+                    prefix.push(placeholder.pop());
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            placeholder.push(t[i]);
+            //
         }
 
-        // else {
-        //     // checkForHigherPrecedence(t[i]);
+        //
 
-        //     if ((t[i] == '/' || t[i] == '*')&& (placeholder.peek() == '/' || placeholder.peek() == '*')) {
-        //         placeholder.push(t[i]);
-        //     }
-        //     else if ((t[i] == '-' || t[i] == '+') && (placeholder.peek() == '-' || placeholder.peek() == '+'))
-        //     {
-        //         placeholder.push(t[i]);
-        //     }
-        // }
+        //
 
-        // if (isalpha(t[i]))
-        // {
-        //     prefix[n++] = t[i];
-        // }
-        // else if (t[i] == '(')
-        // {
-        //     mstack
-        // }
-
-        // cout << "prefix stack" << endl;
-        // prefix.printStack();
-
-        // cout << "placeholder stack" << endl;
-        // placeholder.printStack();
-
-        cout << "prefix stack" << endl;
+        cout << "Expresion: \t";
         prefix.printStack();
+        cout << " (right to left)" << endl;
 
-        cout << "placeholder stack" << endl;
+        cout << "Stack: \t\t";
         placeholder.printStack();
+        cout << " (top)" << endl;
+
+        cout << endl;
     }
 
     while (placeholder.peek() != '|')
     {
 
-        // cout << "test" << placeholder.peek();
+        //
         prefix.push(placeholder.pop());
-        // cout << "done" << endl;
-        //     cout
-        // << prefix.pop();
+        //
     }
 
+    cout << "Prefix Expresion of '" << t << "':\t";
     while (prefix.peek() != '|')
     {
         cout << prefix.pop();
@@ -185,5 +213,3 @@ int main(int argc, char const *argv[])
 
     return 0;
 }
-
-// rdm : infix to prefix conversion
