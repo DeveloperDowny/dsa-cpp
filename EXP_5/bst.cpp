@@ -147,7 +147,7 @@ public:
     }
 
     void
-    preorderTraversalAndDelete(Node *node, int condValue, Node *parent, bool isNodeLeftChild)
+    preorderTraversalAndDelete(Node *&node, int condValue, Node *&parent, bool isNodeLeftChild)
     {
 
         static bool shouldStop = false;
@@ -172,9 +172,15 @@ public:
                 shouldStop = true;
                 return;
             }
+            if (condValue > node->data)
+            {
+                preorderTraversalAndDelete(node->right, condValue, node, false);
+            }
+            else
+            {
+                preorderTraversalAndDelete(node->left, condValue, node, true);
+            }
             cout << node->data << endl;
-            preorderTraversalAndDelete(node->left, condValue, node, true);
-            preorderTraversalAndDelete(node->right, condValue, node, false);
         }
 
         // Vlr
@@ -369,7 +375,24 @@ void menu(BST *mBST)
     int data;
     while (true)
     {
-        cin >> choice;
+        cout
+            << "1. Insert" << endl
+            << "2. Delete" << endl
+            << "0. Exit"
+            << "Enter choice: " << endl;
+
+        cin >>
+            choice;
+
+        if (choice == 0)
+        {
+            cout << "";
+        }
+        else
+        {
+            cout << "Enter data";
+        };
+
         if (choice == 1)
         {
             cin >> data;
@@ -380,6 +403,7 @@ void menu(BST *mBST)
         else if (choice == 2)
         {
             cin >> data;
+            mBST->preorderTraversalAndDelete(mBST->head, data, mBST->head, true);
         }
         else
         {
@@ -423,7 +447,7 @@ int main(int argc, char const *argv[])
     // mBST.deleteWhere(mBST.head, mBST.head, 18);
     cout << "Before Deleting 18: " << endl;
     mBST.preorderTraversal(mBST.head);
-    mBST.preorderTraversalAndDelete(mBST.head, 18, nullptr, true);
+    mBST.preorderTraversalAndDelete(mBST.head, 18, mBST.head, true);
     cout << "After Deleting 18: " << endl;
     mBST.preorderTraversal(mBST.head);
 

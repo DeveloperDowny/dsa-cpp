@@ -15,6 +15,8 @@
     "xstring": "cpp",
     "xtr1common": "cpp",
     "xutility": "cpp",
-    "system_error": "cpp"
+    "system_error": "cpp",
+    "algorithm": "cpp",
+    "atomic": "cpp"
   }
 }
