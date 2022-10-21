@@ -17,6 +17,12 @@
     "xutility": "cpp",
     "system_error": "cpp",
     "algorithm": "cpp",
-    "atomic": "cpp"
+    "atomic": "cpp",
+    "vector": "cpp",
+    "map": "cpp",
+    "xtree": "cpp",
+    "string": "cpp"
   }
+
+  // "C_Cpp.errorSquiggles": "Disabled"
 }
