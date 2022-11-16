@@ -206,6 +206,10 @@ int main(int argc, char const *argv[])
         int K = arrOfK[i];
         int ans[n];
 
+        cout << endl
+             << "Input " << count << endl
+             << endl
+             << "1"; //<< endl;
         cout << endl;
         for (int j = 0; j < n; j++)
         {
@@ -218,6 +222,16 @@ int main(int argc, char const *argv[])
             cout << arrOfM[i][j] << " ";
         }
         cout << endl;
+        cout << n;
+        cout << endl;
+        cout << K;
+        cout << endl;
+        cout << endl;
+
+        cout << "Output " << count;
+        cout << endl;
+        BinUtil::solve(arrOfA[i], arrOfM[i], K, n);
+        BinUtil::printQArr(ansArrr, count);
 
         // BinUtil::solve(arrOfA[i], arrOfM[i], K, n);
         // BinUtil::printQArr(ansArrr, count);
@@ -288,6 +302,7 @@ int main(int argc, char const *argv[])
 // // int A[] = {1, 0, 1, 0, 1, 1};
 // // int A[] = {1, 0, 1, 0, 1, 0, 1};
 // // int A[] = {1, 0, 1, 1, 0, 1, 1, 1};
+// this is the test case for the m array
 
 // // int M[] = {1};
 // // int M[] = {1, 1};
