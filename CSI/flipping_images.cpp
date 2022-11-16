@@ -1,14 +1,17 @@
 // Code shared by Vedant Panchal
-// Reach me incase of doubts on vedantpanchal12345@gmail.com
+// Incase of any doubts, reach me on vedantpanchal12345@gmail.com
+// GitHub Profile: https://github.com/DeveloperDowny
 
 #include <iostream>
 #include <string>
+#include <stack>
 using namespace std;
 
 int main()
 {
-    int n;
+    stack int n;
     string row;
+    row.length();
 
     // (Reason 1)
     // I have used an approach where no intermediate 2D matrix is needed to hold the result
@@ -18,7 +21,8 @@ int main()
     // Because of the above reason, I have not used the following result[n][n]
     // char result[n][n];
 
-    cin >> n;
+    cin >>
+        n;
 
     // The following getline is just to remove \n from buffer
     getline(cin, row);

@@ -22,7 +22,8 @@
     "map": "cpp",
     "xtree": "cpp",
     "string": "cpp",
-    "cmath": "cpp"
+    "cmath": "cpp",
+    "stack": "cpp"
   }
 
   // "C_Cpp.errorSquiggles": "Disabled"

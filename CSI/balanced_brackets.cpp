@@ -1,6 +1,11 @@
-// #include <bits/stdc++.h>
-#include <string>
-#include <iostream>
+// Code shared by Vedant Panchal
+// Incase of any doubts, reach me on vedantpanchal12345@gmail.com
+// GitHub Profile: https://github.com/DeveloperDowny
+
+#include <bits/stdc++.h>
+#include <stack>
+// #include <string>
+// #include <iostream>
 
 using namespace std;
 
@@ -13,12 +18,60 @@ string rtrim(const string &);
  * The function is expected to return a STRING.
  * The function accepts STRING s as parameter.
  */
-// [][][][]
+
+char getCorrespondingRightBracket(char theBracket)
+{
+    if (theBracket == '(')
+        return ')';
+    if (theBracket == '[')
+        return ']';
+    if (theBracket == '{')
+        return '}';
+
+    return '|';
+}
+
+bool isRightBracket(char theBracket)
+{
+    if (theBracket == ')' || theBracket == ']' || theBracket == '}')
+        return true;
+    return false;
+}
 string isBalanced(string s)
 {
-    for (int i = s.size() / 2 - 1; i >= 0; i--)
+    stack<char> mstack;
 
-        return "YES";
+    // A string starting with a right bracket can never be balanced (e.g. )]} )
+    if (isRightBracket(s[0]))
+        return "NO";
+    else
+        mstack.push(s[0]);
+
+    for (int i = 1; i < s.length(); i++)
+    {
+        if (isRightBracket(s[i]))
+        {
+            // If the top is a right bracket and is not the left counterpart bracket of the current bracket,
+            // it can never be a balanced bracket and hence return NO
+            if (getCorrespondingRightBracket(mstack.top()) != s[i])
+                return "NO";
+            // When the top is the left counterpart bracket of the current bracket, remove the top from the stack
+            else
+                mstack.pop();
+        }
+        // If it is a left bracket, push into stack to check
+        // whether the future most recent right bracket is the corresponding right bracket of the top of stack or not
+        else
+        {
+            mstack.push(s[i]);
+        }
+    }
+
+    // When the stack is not empty, it means no corresponding right brackets of the brackets left in the stack were found.
+    // Hence, return NO as the brackets are not balanced (e.g. in the case of "{[(")
+    if (!mstack.empty())
+        return "NO";
+    return "YES";
 }
 
 int main()
@@ -66,3 +119,39 @@ string rtrim(const string &str)
 
     return s;
 }
+
+// 3
+// {[()]}
+// {[(])}
+// {{[[(())]]}}
+
+// 6
+// }][}}(}][))]
+// [](){()}
+// ()
+// ({}([][]))[]()
+// {)[](}]}]}))}(())(
+// ([[)
+
+// 21
+// ()[{}()]([[][]()[[]]]{()})([]()){[]{}}{{}}{}(){([[{}([]{})]])}
+// {][({(}]][[[{}]][[[())}[)(]([[[)][[))[}[]][()}))](]){}}})}[{]{}{((}]}{{)[{[){{)[]]}))]()]})))[
+// [)](][[([]))[)
+// ]}]){[{{){
+// {[(}{)]]){(}}(][{{)]{[(((}{}{)}[({[}[}((}{()}[]})]}]]))((]][[{{}[(}})[){()}}{(}{{({{}[[]})]{((]{[){[
+// ()}}[(}])][{]{()([}[}{}[{[]{]](]][[))(()[}(}{[{}[[]([{](]{}{[){()[{[{}}{[{()(()({}([[}[}[{(]})
+// ){[])[](){[)}[)]}]]){](]()]({{)(]])(]{(}(}{)}])){[{}((){[({(()[[}](]})]}({)}{)]{{{
+// [(})])}{}}]{({[]]]))]})]
+// [{
+// {}([{()[]{{}}}])({})
+// {({}{[({({})([[]])}({}))({})]})}
+// ()[]
+// {)[])}]){){]}[(({[)[{{[((]{()[]}][([(]}{](])()(}{(]}{})[)))[](){({)][}()((
+// [][(([{}])){}]{}[()]{([[{[()]({}[])()()}[{}][]]])}
+// (}]}
+// (([{()}]))[({[{}{}[]]{}})]{((){}{()}){{}}}{}{{[{[][]([])}[()({}())()({[]}{{[[]]([])}})()]]}}
+// [(([){[](}){){]]}{}([](([[)}[)})[(()[]){})}}]][({[}])}{(({}}{{{{])({]]}[[{{(}}][{)([)]}}
+// ()()[()([{[()][]{}(){()({[]}[(((){(())}))]()){}}}])]
+// ({)}]}[}]{({))}{)]()(](])})][(]{}{({{}[]{][)){}{}))]()}((][{]{]{][{}[)}}{)()][{[{{[[
+// )}(()[])(}]{{{}[)([})]()}()]}(][}{){}}})}({](){([()({{(){{
+// }([]]][[){}}[[)}[(}(}]{(}[{}][{}](}]}))]{][[}(({(]}[]{[{){{(}}[){[][{[]{[}}[)]}}]{}}(}
