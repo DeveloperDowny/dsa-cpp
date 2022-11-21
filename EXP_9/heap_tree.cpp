@@ -18,12 +18,12 @@ public:
 
     int getLeftChildIndex(int i)
     {
-        return 2 * i;
+        return 2 * (i + 1) - 1;
     }
 
     int getRightChildIndex(int i)
     {
-        return 2 * i + 1;
+        return 2 * (i + 1) - 1 + 1;
     }
     void heapify(int i)
     {
@@ -59,11 +59,42 @@ public:
     {
         int temp = heapTree[i];
         heapTree[i] = heapTree[j];
-        heapTree[j] = i;
+        heapTree[j] = temp;
+    }
+
+    void sortHeap2()
+    {
+        for (int i = heapTree.size() - 1; i >= 0; i--)
+        {
+            swap(i, 0);
+            topDownHeapify(0, i - 1);
+            printHeap();
+        }
+    }
+
+    void topDownHeapify(int currI, int lastI)
+    {
+        // if (currI >= lastI || getRightChildIndex(currI) > lastI || getLeftChildIndex(currI) > lastI)
+        if (currI >= heapTree.size() || getRightChildIndex(currI) >= heapTree.size() || getLeftChildIndex(currI) >= heapTree.size())
+        {
+            return;
+        }
+        if (heapTree[getRightChildIndex(currI)] < heapTree[currI])
+        {
+            swap(getRightChildIndex(currI), currI);
+            topDownHeapify(getRightChildIndex(currI), lastI);
+        }
+        else if (heapTree[getLeftChildIndex(currI)] < heapTree[currI])
+        {
+            swap(getLeftChildIndex(currI), currI);
+            topDownHeapify(getLeftChildIndex(currI), lastI);
+        }
     }
 
     void sortHeap(int currI, int lastI)
     {
+        if (lastI < 0)
+            return;
         if (currI == lastI)
         {
             swap(lastI, 0);
@@ -82,6 +113,10 @@ public:
         {
             swap(getRightChildIndex(currI), currI);
             sortHeap(getRightChildIndex(currI), lastI);
+        }
+        else
+        {
+            sortHeap(0, lastI - 1);
         }
 
         // if (currI <= lastI)
@@ -136,7 +171,8 @@ int main(int argc, char const *argv[])
          << "The final heap: " << endl;
     mHeap.printHeap();
 
-    mHeap.sortHeap(mHeap.heapTree.size() - 1, mHeap.heapTree.size() - 1);
+    // mHeap.sortHeap(mHeap.heapTree.size() - 1, mHeap.heapTree.size() - 1);
+    mHeap.sortHeap2();
 
     cout
         << endl

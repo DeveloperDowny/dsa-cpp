@@ -1,11 +1,11 @@
-// Code shared by Vedant Panchal
+// Code shared by Vedant Panchal, CSI-SPIT, Tech Team
 // Incase of any doubts, reach me on vedantpanchal12345@gmail.com
 // GitHub Profile: https://github.com/DeveloperDowny
 
 #include <bits/stdc++.h>
 #include <stack>
 // #include <string>
-// #include <iostream>
+#include <iostream>
 
 using namespace std;
 
@@ -18,6 +18,17 @@ string rtrim(const string &);
  * The function is expected to return a STRING.
  * The function accepts STRING s as parameter.
  */
+
+void printStack(stack<char> mstack)
+{
+    cout << "top-> ";
+    while (!mstack.empty())
+    {
+        cout << (mstack.top()) << endl;
+        mstack.pop();
+    }
+    cout << endl;
+}
 
 char getCorrespondingRightBracket(char theBracket)
 {
@@ -49,6 +60,7 @@ string isBalanced(string s)
 
     for (int i = 1; i < s.length(); i++)
     {
+        printStack(mstack);
         if (isRightBracket(s[i]))
         {
             // If the top is a right bracket and is not the left counterpart bracket of the current bracket,
@@ -69,6 +81,7 @@ string isBalanced(string s)
 
     // When the stack is not empty, it means no corresponding right brackets of the brackets left in the stack were found.
     // Hence, return NO as the brackets are not balanced (e.g. in the case of "{[(")
+    printStack(mstack);
     if (!mstack.empty())
         return "NO";
     return "YES";
@@ -119,39 +132,3 @@ string rtrim(const string &str)
 
     return s;
 }
-
-// 3
-// {[()]}
-// {[(])}
-// {{[[(())]]}}
-
-// 6
-// }][}}(}][))]
-// [](){()}
-// ()
-// ({}([][]))[]()
-// {)[](}]}]}))}(())(
-// ([[)
-
-// 21
-// ()[{}()]([[][]()[[]]]{()})([]()){[]{}}{{}}{}(){([[{}([]{})]])}
-// {][({(}]][[[{}]][[[())}[)(]([[[)][[))[}[]][()}))](]){}}})}[{]{}{((}]}{{)[{[){{)[]]}))]()]})))[
-// [)](][[([]))[)
-// ]}]){[{{){
-// {[(}{)]]){(}}(][{{)]{[(((}{}{)}[({[}[}((}{()}[]})]}]]))((]][[{{}[(}})[){()}}{(}{{({{}[[]})]{((]{[){[
-// ()}}[(}])][{]{()([}[}{}[{[]{]](]][[))(()[}(}{[{}[[]([{](]{}{[){()[{[{}}{[{()(()({}([[}[}[{(]})
-// ){[])[](){[)}[)]}]]){](]()]({{)(]])(]{(}(}{)}])){[{}((){[({(()[[}](]})]}({)}{)]{{{
-// [(})])}{}}]{({[]]]))]})]
-// [{
-// {}([{()[]{{}}}])({})
-// {({}{[({({})([[]])}({}))({})]})}
-// ()[]
-// {)[])}]){){]}[(({[)[{{[((]{()[]}][([(]}{](])()(}{(]}{})[)))[](){({)][}()((
-// [][(([{}])){}]{}[()]{([[{[()]({}[])()()}[{}][]]])}
-// (}]}
-// (([{()}]))[({[{}{}[]]{}})]{((){}{()}){{}}}{}{{[{[][]([])}[()({}())()({[]}{{[[]]([])}})()]]}}
-// [(([){[](}){){]]}{}([](([[)}[)})[(()[]){})}}]][({[}])}{(({}}{{{{])({]]}[[{{(}}][{)([)]}}
-// ()()[()([{[()][]{}(){()({[]}[(((){(())}))]()){}}}])]
-// ({)}]}[}]{({))}{)]()(](])})][(]{}{({{}[]{][)){}{}))]()}((][{]{]{][{}[)}}{)()][{[{{[[
-// )}(()[])(}]{{{}[)([})]()}()]}(][}{){}}})}({](){([()({{(){{
-// }([]]][[){}}[[)}[(}(}]{(}[{}][{}](}]}))]{][[}(({(]}[]{[{){{(}}[){[][{[]{[}}[)]}}]{}}(}
