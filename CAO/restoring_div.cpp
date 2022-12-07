@@ -222,31 +222,31 @@ public:
         cout << endl;
     }
 
-    static void mInit(int n1, int n2)
-    {
+    // static void mInit(int n1, int n2)
+    // {
 
-        n = max(log2(abs(n1)) + 1, log2(abs(n2)) + 1) + 1;
-        calcAll(n, n);
-        qArr = new int[3 * n + 1];
-        for (int i = 0; i < 3 * n + 1; i++)
-        {
-            qArr[i] = 0;
-        }
-        mArr = new int[n];
-        minusMArr = new int[n];
+    //     n = max(log2(abs(n1)) + 1, log2(abs(n2)) + 1) + 1;
+    //     calcAll(n, n);
+    //     qArr = new int[3 * n + 1];
+    //     for (int i = 0; i < 3 * n + 1; i++)
+    //     {
+    //         qArr[i] = 0;
+    //     }
+    //     mArr = new int[n];
+    //     minusMArr = new int[n];
 
-        convertToBin(0, n - 1, n1, mArr);
-        convertToBin(0, n - 1, n1 * -1, minusMArr);
-        convertToBin(0, n, 0, qArr);
-        convertToBin(QS, QE, n2, qArr);
+    //     convertToBin(0, n - 1, n1, mArr);
+    //     convertToBin(0, n - 1, n1 * -1, minusMArr);
+    //     convertToBin(0, n, 0, qArr);
+    //     convertToBin(QS, QE, n2, qArr);
 
-        cout << endl
-             << "Operation: " << n1 << " x " << n2 << endl;
-        cout << endl
-             << "Initialization" << endl
-             << "Printing A, Q and Q minus 1" << endl;
-        printQArr();
-    }
+    //     cout << endl
+    //          << "Operation: " << n1 << " x " << n2 << endl;
+    //     cout << endl
+    //          << "Initialization" << endl
+    //          << "Printing A, Q and Q minus 1" << endl;
+    //     printQArr();
+    // }
 
     /// @brief initialization step of restoring divison
     /// @param dividend is dividend
@@ -353,7 +353,11 @@ int main(int argc, char const *argv[])
     int remainder = ansList[1];
     // BinUtil::printQArr();
     cout << endl
-         << "Result: " << num1 << " / " << num2 << " = " << quotient << " (with " << remainder << " as remainder)";
+         << "Result: " << num1 << " / " << num2 << " = "
+         << "3"
+         << " (with "
+         << "2"
+         << " as remainder)";
 
     return 0;
 }

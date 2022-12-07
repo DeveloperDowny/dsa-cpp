@@ -19,7 +19,7 @@ public:
     }
 };
 
-class CircularLinkedList
+class LRU
 {
 public:
     static int maxSize;
@@ -29,8 +29,24 @@ public:
     Node *head = nullptr;
 
     bool isFull = false;
-    CircularLinkedList()
+    LRU()
     {
+    }
+
+    void addToLeft(Node *newNode)
+    {
+        newNode->next = head;
+        head->prev = newNode;
+        head = head->prev;
+    }
+
+    int removeFromRight()
+    {
+        Node *toDelete = tail;
+        tail = tail->prev;
+        int toReturn = toDelete->data;
+        free(toDelete);
+        return toReturn;
     }
 
     int replaceTo(int data)
@@ -74,7 +90,57 @@ public:
         // checkFull();
     }
 
+    void checkIfInCacheElseAdd(int data)
+    {
+        if (head == nullptr)
+        {
+            head = new Node(data);
+            tail = head;
+        }
+        else if (head == tail)
+        {
+
+            head = new Node(data);
+            head->next = tail;
+            tail->prev = head;
+        }
+
+        if (head->data == data) // don't do this
+            return;
+
+        Node *temp = head;
+        int i;
+        for (i = 0; i < maxSize; i++, temp = temp->next)
+        {
+
+            if (temp->data == data)
+            {
+                Node *toAddToFront = temp;
+                toAddToFront->prev->next = temp->next;
+                if (toAddToFront->next != nullptr)
+                {
+                    toAddToFront->next->prev = temp->prev;
+                }
+                addToLeft(toAddToFront);
+                return;
+            }
+
+            if (temp->next == nullptr)
+                break;
+        }
+        if (i >= maxSize)
+        {
+            addToLeft(new Node(data));
+            cout << removeFromRight() << endl;
+        }
+        else if (i < maxSize)
+        {
+            addToLeft(new Node(data));
+        }
+    }
+
     void
+    // checkIfInCacheElseAdd(int data)
     checkIfInCache(int data)
     {
         if (tail == nullptr)
@@ -123,15 +189,15 @@ public:
     }
 };
 
-int CircularLinkedList::maxSize = 3;
+int LRU::maxSize = 3;
 
 int main(int argc, char const *argv[])
 {
-    CircularLinkedList mLRU = CircularLinkedList();
-    mLRU.checkIfInCache(1);
-    mLRU.checkIfInCache(2);
-    mLRU.checkIfInCache(3);
-    mLRU.checkIfInCache(1);
-    mLRU.checkIfInCache(4);
+    LRU mLRU = LRU();
+    mLRU.checkIfInCacheElseAdd(1);
+    mLRU.checkIfInCacheElseAdd(2);
+    mLRU.checkIfInCacheElseAdd(3);
+    mLRU.checkIfInCacheElseAdd(1);
+    mLRU.checkIfInCacheElseAdd(4);
     return 0;
 }

@@ -56,6 +56,9 @@ public:
         {
             Node *N = new Node();
             N->data = s[i];
+            cout << "Adding: " << N->data << endl;
+            //      << "Current Tree State: " << endl;
+            // preorderTraversal(this->head);
             i++;
             N->left = makeTree(s, sLength);
             N->right = makeTree(s, sLength);
